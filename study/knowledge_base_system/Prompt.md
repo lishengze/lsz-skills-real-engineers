@@ -32,6 +32,7 @@
 13. 读 `10_系统排障与经验.md`：云桌面黑屏（GStreamer 缺解码插件）、DevChat LD_LIBRARY_PATH 干扰、dpkg 单位异常、Wayland 渲染注意、24.04 登录崩溃（捆绑旧 GnuTLS 与系统库符号冲突）。
 14. 排障通用思路：按"连接→渲染→进程→解码→环境"逐层排除；先看日志/实测，不凭猜测。
 15. **升级系统后崩溃**：先看 minidump 异常码判定崩溃类型（SIGSEGV@0x0=空指针）；`ldd <so>` 报 `version 'XXX' not found` = 捆绑旧库与系统库符号冲突（用系统库）；`undefined symbol: xxx, version V` = 系统新库缺定制旧符号（用 LD_PRELOAD shim 补齐）。同一 soname 两库各缺对方符号时，shim 用 `.symver` 指定版本 + 转发到另一库实现。
+16. **系统升级前做捆绑库兼容性体检（预防性）**：升级前对比捆绑第三方库（openssl/gnutls/glib/libva 等）与目标系统库的版本符号（`readelf -V`/`nm -D`/`ldd`），提前发现符号冲突，避免升级后被动排障。
 
 ## 3. 学习要求（新增知识时补充）
 
