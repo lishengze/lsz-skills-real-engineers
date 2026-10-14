@@ -205,9 +205,9 @@
 **cron 配置示例**（`crontab -e`）：
 
 ```bash
-0 18 * * *  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh daily
-0 18 * * 5  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh weekly
-0 18 28 * * bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh monthly
+0 18 * * *  bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh daily
+0 18 * * 5  bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh weekly
+0 18 28 * * bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh monthly
 ```
 
 **可选全自动文本复盘**（用模型 API，不推荐作为主机制）：

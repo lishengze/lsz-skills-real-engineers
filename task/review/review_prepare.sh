@@ -20,11 +20,11 @@
 #
 # cron 示例（写入 crontab -e）：
 #   # 每日 18:00 准备当日复盘数据
-#   0 18 * * *  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh daily
+#   0 18 * * *  bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh daily
 #   # 每周五 18:00 准备周复盘数据
-#   0 18 * * 5  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh weekly
+#   0 18 * * 5  bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh weekly
 #   # 每月最后一天 18:00 准备月复盘数据（用 28 号近似，或单独脚本算最后一天）
-#   0 18 28 * * bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh monthly
+#   0 18 28 * * bash /home/lsz/code/work/lsz-skills-real-engineers/task/review/review_prepare.sh monthly
 # =============================================================================
 set -u
 
@@ -91,13 +91,13 @@ echo "日志文件数: ${#FILES[@]}"
     echo
     for f in "${FILES[@]}"; do
         echo "### 来源：$(basename "$f")"
-        awk '/^### 经验教训/{flag=1;next}/^## /{if(flag)flag=0}flag' "$f" 2>/dev/null | grep -v '^### 经验教训' | sed 's/^/  /'
+        awk '/^### 经验教训/{flag=1;next}/^(## |### 待验证假设|### 遗留问题|### 待办)/{if(flag)flag=0}flag' "$f" 2>/dev/null | grep -v '^### 经验教训' | sed 's/^/  /'
         echo
     done
     echo "## 三、待验证假设 / 遗留问题（若有）"
     echo
     for f in "${FILES[@]}"; do
-        awk '/待验证假设|遗留问题|待办/{flag=1;next}/^## /{if(flag)flag=0}flag' "$f" 2>/dev/null | grep -vE '待验证假设|遗留问题|待办' | sed 's/^/  /'
+        awk '/^### 待验证假设|^### 遗留问题|^### 待办/{flag=1;next}/^## /{if(flag)flag=0}flag' "$f" 2>/dev/null | grep -vE '^### 待验证假设|^### 遗留问题|^### 待办' | sed 's/^/  /'
         echo
     done
 } > "$OUTFILE"

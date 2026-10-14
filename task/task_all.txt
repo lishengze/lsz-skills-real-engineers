@@ -87,4 +87,4 @@
     1. 在其他项目中已经建立了一套完整的 模型自我提升复盘体系，对应文档已经拷贝到当前对应目录中；
     2. 深入 task/review/review_prepare.sh 文件，task 中的 task_rule.md, task_prompt.md, task_upgrade.md 等等文件。
     3. 完全掌握整个一套新的 模型自我提升复盘体系，并且将这套体系应用到当前项目中。
-    4. 然后深入学习当前仓库的所有文件， 在 study/knowledge_base_system 创建完整的知识库体系，并且将当前仓库的所有文件都加入到知识库中。
+    4. 然后深入学习当前仓库的所有文件， study/knowledge_base_system 是当前知识库体系。
