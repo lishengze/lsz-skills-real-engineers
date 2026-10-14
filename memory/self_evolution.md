@@ -42,12 +42,12 @@ Obsidian(知识图谱)、ripgrep(全文检索)、Mermaid(图表)、知识保鲜�
 ## 规则与模板（2026-10-09 新增）
 - **通用规则**：`task/task_rule.md`（融合 task_all.txt 1-15 行 + 自进化体系），同时写入 `.chat/rules/project_rules.md` 面向所有 agent/会话。
 - **对话模板**：`task/task_prompt.md`（六大工作场景：学习文档/研究代码/开发测试/测试执行/代码答疑/问题分析）。
-- **工具已安装**：rg/fd/bat/fzf/tree/tmux/pandoc/jq/mineru（安装脚本 `task/tool/ai_tool.sh`，用法 `task/tool/ai_tool_use.md`）。mmdc(按需 npx)。知识检索助手 `task/tool/kb_search.sh`。
-- **技能**：pdf/docx/xlsx/pptx/frontend-design/webapp-testing/canvas-design/mcp-builder/skill-creator 等，详见 `study/knowledge_base_system/10_技能与工具.md`。
-- **知识库融合**：`knowledge_base`(业务级) + `knowledge_base_system`(系统级) = 统一知识体系的两级维度，详见 `task/task_upgrade.md` §9。
-- **四级复盘体系**（参考 agent_upgrade.md）：单任务即时复盘→每日总结→每周迭代→每月能力升级；复盘核心五问 + 复盘成果五转化。详见 `task/task_rule.md` §7。
+- **工具已安装**：本仓库无独立工具安装脚本。rg/fd/bat/fzf/tree/tmux/pandoc/jq 等系统工具按需使用。知识检索依赖 `list_files`/`search_relative`/`get_file_content` 等内置工具。
+- **技能**：本仓库的 agent 技能库（engineering/productivity/misc/in-progress/deprecated 五桶，推广 27 个），详见 `study/knowledge_base_system/03_工程技能详解.md`、`04_生产力技能详解.md`、`05_其他分桶技能.md`。
+- **知识库体系**：`study/knowledge_base_system/`（系统级知识库，当前仓库唯一知识库），9 个主题文档 + MEMORY.md + Prompt.md。详见 `study/knowledge_base_system/MEMORY.md`。
+- **四级复盘体系**（参考 agent_upgrade.md）：单任务即时复盘→每日总结→每周迭代→每月能力升级；复盘核心五问 + 复盘成果五转化。详见 `task/task_rule.md` §8。
 - **三层学习机制**：任务即时学习 / 短板靶向学习 / 常态化新知学习 + 6 步学习 SOP。详见 `task/task_rule.md` §6。
-- **分场景专项规范**：文档/代码开发/测试运维各有专项 SOP。详见 `task/task_rule.md` §8。
-- **工程纪律**（参考 lsz-skills-real-engineers）：`study/knowledge_base_system/11_工程纪律.md`。核心：TDD红绿重构、六阶段Bug诊断（先建反馈回路→再假设→再修复）、双轴CodeReview+Fowler坏味道、DeepModule设计、writing-for-agents文档规范、领域建模GLOSSARY+ADR。已融入 `task/task_rule.md`（§3双轴审查/§4.1文档写作/§5.1Bug诊断）。
-- **复盘自动化**（cron 半自动）：Agent 被动响应式，无法自醒做日/周/月复盘（无 headless CLI）。方案= cron 跑 `task/review/review_prepare.sh` 自动聚合 work_log 生成复盘输入，用户一键触发 agent 反思。单任务复盘全自动；日/周/月复盘半自动。详见 `task/task_rule.md` §7.4、`task/task_upgrade.md` §7.4。
+- **分场景专项规范**：文档/代码开发/测试运维各有专项 SOP。详见 `task/task_rule.md` §9。
+- **工程纪律**：`study/knowledge_base_system/09_工程纪律与设计哲学.md`。核心：TDD红绿重构、六阶段Bug诊断（先建反馈回路→再假设→再修复）、双轴CodeReview+Fowler坏味道、DeepModule设计、writing-for-agents文档规范、领域建模GLOSSARY+ADR。已融入 `task/task_rule.md`（§3双轴审查/§4.1文档写作）。
+- **复盘自动化**（cron 半自动）：Agent 被动响应式，无法自醒做日/周/月复盘（无 headless CLI）。方案= cron 跑 `task/review/review_prepare.sh` 自动聚合 work_log 生成复盘输入，用户一键触发 agent 反思。单任务复盘全自动；日/周/月复盘半自动。详见 `task/task_rule.md` §8.4、`task/task_upgrade.md` §7.4。
   - **一句话触发指令**：用户说"进行daily/weekly/monthly复盘"即可。agent 收到后**先主动运行 `bash task/review/review_prepare.sh <周期>` 刷新输入文件**（不依赖 cron 预生成，防过时），再执行核心五问→成果五转化→更新知识库+Prompt.md→写报告。详见 `task/task_prompt.md` §7。
