@@ -15,7 +15,7 @@
 | `07_脚本与工具链.md` | scripts 脚本、.claude-plugin、.agents、版本同步 |
 | `08_复盘与自我进化体系.md` | 任务五阶段、四级复盘、复盘自动化、工作日志、知识沉淀 |
 | `09_工程纪律与设计哲学.md` | TDD、Bug 诊断、双轴 CodeReview、Fowler 坏味道、Deep Module、领域建模 |
-| `10_系统排障与经验.md` | 云桌面黑屏（GStreamer 缺解码插件）、DevChat LD_LIBRARY_PATH 干扰、dpkg 单位异常 |
+| `10_系统排障与经验.md` | 云桌面黑屏（GStreamer 缺解码插件）、DevChat LD_LIBRARY_PATH 干扰、dpkg 单位异常、24.04 登录崩溃（捆绑旧 GnuTLS 与系统库符号冲突→LD_PRELOAD shim 补齐定制符号）、24.04 glib 2.56 恢复 + libglib_h3c shim、24.04 捆绑 GStreamer 1.14 解码链黑屏、完整修复链速查 |
 
 ## 2. 核心结论速查
 
