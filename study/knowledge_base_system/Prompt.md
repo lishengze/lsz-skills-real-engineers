@@ -28,6 +28,10 @@
 11. 实际执行主流程：grill-with-docs → to-spec → to-tickets → implement → code-review → retro。
 12. 每次任务后执行复盘（一句话触发），沉淀经验到知识库 + 本文件。
 
+### 阶段 E：系统排障（daily_life 场景）
+13. 读 `10_系统排障与经验.md`：云桌面黑屏（GStreamer 缺解码插件）、DevChat LD_LIBRARY_PATH 干扰、dpkg 单位异常、Wayland 渲染注意。
+14. 排障通用思路：按"连接→渲染→进程→解码→环境"逐层排除；先看日志/实测，不凭猜测。
+
 ## 3. 学习要求（新增知识时补充）
 
 - **技能使用**：用技能前先读其 `SKILL.md`，判断 user-invoked 还是 model-invoked，遵守调用约定。

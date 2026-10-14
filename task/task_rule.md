@@ -191,17 +191,19 @@
 
 **核心结论**：Agent 是被动响应式，**无法自行唤醒**做每日/每周/每月复盘。当前环境无 headless agent CLI（claude/devchat/aicode 均不可用），cron 只能跑 shell 脚本，**无法启动 agent 会话**。因此：
 
-| 级别 | 自动化程度 | 机制 |
-|------|-----------|------|
-| **单任务即时复盘** | ✅ 全自动 | 内嵌于任务收尾流程（自检清单），无需外部触发 |
+| 级别                         | 自动化程度  | 机制                                          |
+| ---------------------------- | ----------- | --------------------------------------------- |
+| **单任务即时复盘**     | ✅ 全自动   | 内嵌于任务收尾流程（自检清单），无需外部触发  |
 | **每日/每周/每月复盘** | ⚠️ 半自动 | cron 自动备数据 + 用户一键触发 agent 执行反思 |
 
 **半自动流程**（使用 `task/review/review_prepare.sh`）：
+
 1. **cron 自动备数据**：定时运行脚本聚合 `work_log/` 对应周期条目，生成复盘输入文件 `task/review/<周期>_<日期>_input.md`（含任务清单、经验教训汇总、统计信息）+ 触发 prompt 文件。
 2. **用户一键触发**：复制触发 prompt 给 agent，或说"进行<周期>复盘，输入在 task/review/<周期>_<日期>_input.md"。
 3. **agent 执行反思**：读输入 → 复盘核心五问 → 成果五转化 → 更新知识库 + Prompt.md → 写复盘报告。
 
 **cron 配置示例**（`crontab -e`）：
+
 ```bash
 0 18 * * *  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh daily
 0 18 * * 5  bash /home/lsz/code/work/otc_src/task/review/review_prepare.sh weekly
@@ -209,6 +211,7 @@
 ```
 
 **可选全自动文本复盘**（用模型 API，不推荐作为主机制）：
+
 - cron 脚本直接调用模型 API（`http://aicode.gtht.com.cn/v1`）发纯文本复盘请求，生成文本报告。
 - 局限：无工具能力，不能更新知识库/文件，只产出文本报告。适合"轻量每日复盘"，不适合需要深度知识库更新的复盘。
 
@@ -219,6 +222,7 @@
 **每次进行 daily/weekly/monthly 复盘后，必须核查当日经验教训总结是否已融合到知识库。**
 
 核查范围（缺一不可）：
+
 1. `study/knowledge_base_system/` 对应主题文档（如 07_环境与排障.md、03_全局节点开发.md 等）
 2. `study/knowledge_base_system/MEMORY.md`（排障高频/索引）
 3. `study/knowledge_base_system/Prompt.md`（学习路径）

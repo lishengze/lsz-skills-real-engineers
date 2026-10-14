@@ -44,7 +44,8 @@ Obsidian(知识图谱)、ripgrep(全文检索)、Mermaid(图表)、知识保鲜�
 - **对话模板**：`task/task_prompt.md`（六大工作场景：学习文档/研究代码/开发测试/测试执行/代码答疑/问题分析）。
 - **工具已安装**：本仓库无独立工具安装脚本。rg/fd/bat/fzf/tree/tmux/pandoc/jq 等系统工具按需使用。知识检索依赖 `list_files`/`search_relative`/`get_file_content` 等内置工具。
 - **技能**：本仓库的 agent 技能库（engineering/productivity/misc/in-progress/deprecated 五桶，推广 27 个），详见 `study/knowledge_base_system/03_工程技能详解.md`、`04_生产力技能详解.md`、`05_其他分桶技能.md`。
-- **知识库体系**：`study/knowledge_base_system/`（系统级知识库，当前仓库唯一知识库），9 个主题文档 + MEMORY.md + Prompt.md。详见 `study/knowledge_base_system/MEMORY.md`。
+- **知识库体系**：`study/knowledge_base_system/`（系统级知识库，当前仓库唯一知识库），10 个主题文档 + MEMORY.md + Prompt.md。详见 `study/knowledge_base_system/MEMORY.md`。
+- **系统排障经验**：`study/knowledge_base_system/10_系统排障与经验.md`。核心：云桌面黑屏（GStreamer 缺解码插件）、DevChat LD_LIBRARY_PATH 干扰（旧 libstdc++）、dpkg Installed-Size 单位异常、Wayland 渲染注意。排障按"连接→渲染→进程→解码→环境"逐层排除。
 - **四级复盘体系**（参考 agent_upgrade.md）：单任务即时复盘→每日总结→每周迭代→每月能力升级；复盘核心五问 + 复盘成果五转化。详见 `task/task_rule.md` §8。
 - **三层学习机制**：任务即时学习 / 短板靶向学习 / 常态化新知学习 + 6 步学习 SOP。详见 `task/task_rule.md` §6。
 - **分场景专项规范**：文档/代码开发/测试运维各有专项 SOP。详见 `task/task_rule.md` §9。
