@@ -77,3 +77,28 @@
 **遗留**：
 - 客户端当前以 `IsMultiScreen=false`（单屏）运行（此前排查时临时修改，备份 `vdisettings.ini.bak.20261014`）。如需恢复双屏，可改回 `IsMultiScreen=true` 后重启客户端验证。
 - 建议客户端通过桌面快捷方式正常启动（避免 DevChat 的 LD_LIBRARY_PATH 干扰）；若从终端启动需 `env -u LD_LIBRARY_PATH`。
+### 2026-10-15 09:00 — UniCloud Workspace 云桌面黑屏（22.04 捆绑 GStreamer 解码链缺 libva/fftw3）
+
+**问题**：workspace-vdi（E2004H07）在 Ubuntu 22.04.5 上启动后黑屏，远程桌面画面不显示。VdSession 进程在跑、连接成功，但画面黑屏。
+
+**影响范围**：用户 lsz 的 Ubuntu 22.04.5 主机。
+
+**分析过程**：
+1. 系统 22.04.5 + Workspace E2004H07，VdSession 进程运行（PID 12788），连接日志 `desktop is already connected success now`。
+2. 解码层：`gst-inspect-1.0 avdec_h264` 报"没有那样的组件或插件"。
+3. 关键：`start.sh` 设 `GST_PLUGIN_PATH=RUN/gstreamer-1.0`（**捆绑 GStreamer 1.14.5**），VdSession 用捆绑 GStreamer，非系统。捆绑目录有 `libgstlibav.so`（avdec_h264 提供者）、`libgstvaapi.so`。
+4. 用 VdSession 完整 LD_LIBRARY_PATH 复现 `ctypes.CDLL('gstreamer-1.0/libgstlibav.so', RTLD_NOW)` 报 **`libva.so.2: cannot open shared object file`**。
+5. 深入：捆绑 `libgstlibav.so`/`libgstvaapi.so` 依赖 `libva.so.2`（核心 libva），但捆绑 RUN 目录**没有** libva.so.2（只有 libva-x11/drm/wayland 变体），系统 22.04 **未安装 libva**。
+6. 捆绑 `libva-x11.so.2.100.0` 需要 `va_fool_postp`（数据符号 `DO *UND*`），任何捆绑库都不定义它，只能由核心 libva.so.2 提供。
+7. 装 libva 后又暴露 `libfftw3.so.3`（双精度 FFTW）缺失，系统只有单精度 `libfftw3-single3`。
+
+**结论**：
+- **根因**：VdSession 用捆绑 GStreamer 1.14，其解码插件 `libgstlibav.so`（avdec_h264）依赖 `libva.so.2` + `libfftw3.so.3`，而捆绑目录缺核心 libva.so.2、系统 22.04 也未装 libva（且只装单精度 fftw3）→ 插件加载失败 → avdec_h264 元素创建失败 → 黑屏。
+- **解决方案**（参考知识库 §8，多一步装系统 libva）：
+  1. 装系统 libva 全套：`sudo apt install libva2 libva-x11-2 libva-drm2 libva-wayland2`（提供 libva.so.2 + 系统配套 libva-x11）
+  2. 禁用捆绑 libva-x11（`mv libva-x11.so* .bak`），用系统配套（无 va_fool_postp 需求）
+  3. 装 `libfftw3-double3`（提供 libfftw3.so.3）
+  4. 删 GStreamer 注册表缓存：`rm -f ~/.cache/gstreamer-1.0/registry.*`
+  5. 干净环境重启：`env -u LD_LIBRARY_PATH DISPLAY=:0 run.sh`
+- **验证**：`ctypes.CDLL('libgstlibav.so')` 加载 OK；捆绑 GStreamer 下 `gst_element_factory_make('avdec_h264')` 返回 OK；Workspace 重启后稳定运行，日志无 GStreamer 解码错误。
+- **处理状态**：✅ 修复已就位，待用户重新登录连接实测确认画面正常。

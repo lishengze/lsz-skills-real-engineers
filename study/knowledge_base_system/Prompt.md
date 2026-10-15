@@ -33,6 +33,7 @@
 14. 排障通用思路：按"连接→渲染→进程→解码→环境"逐层排除；先看日志/实测，不凭猜测。
 15. **升级系统后崩溃**：先看 minidump 异常码判定崩溃类型（SIGSEGV@0x0=空指针）；`ldd <so>` 报 `version 'XXX' not found` = 捆绑旧库与系统库符号冲突（用系统库）；`undefined symbol: xxx, version V` = 系统新库缺定制旧符号（用 LD_PRELOAD shim 补齐）。同一 soname 两库各缺对方符号时，shim 用 `.symver` 指定版本 + 转发到另一库实现。
 16. **系统升级前做捆绑库兼容性体检（预防性）**：升级前对比捆绑第三方库（openssl/gnutls/glib/libva 等）与目标系统库的版本符号（`readelf -V`/`nm -D`/`ldd`），提前发现符号冲突，避免升级后被动排障。
+17. **云桌面黑屏先确认用哪套 GStreamer**（`GST_PLUGIN_PATH` 指向捆绑还是系统）：捆绑 GStreamer 时装系统插件无效，须修捆绑解码链依赖（如 22.04 缺 `libva.so.2`+`libfftw3.so.3` → 装系统 libva2/libfftw3-double3 + 禁用捆绑 libva-x11）。详见 `10` §8.5。
 
 ## 3. 学习要求（新增知识时补充）
 
