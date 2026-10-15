@@ -1,0 +1,29 @@
+2026年10月15日
+    SSH 远程服务器映射登陆
+    1. 当前远程服务器的环境信息：
+        [root@lingqu01 ~]# vim ~/.ssh/authorized_keys
+        [root@lingqu01 ~]# cat /etc/os-release 
+        NAME="Kylin Linux Advanced Server"
+        VERSION="V11 (UB)"
+        ID="kylin"
+        VERSION_ID="V11"
+        PRETTY_NAME="Kylin Linux Advanced Server V11 (UB)"
+        ANSI_COLOR="0;31"
+
+        [root@lingqu01 ~]# gcc --version
+        gcc (GCC) 12.3.1 (kylin 12.3.1-62.p04.ky11)
+        Copyright (C) 2022 Free Software Foundation, Inc.
+        This is free software; see the source for copying conditions.  There is NO
+        warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+        [root@lingqu01 ~]# uname -srm 
+        Linux 6.6.0-41.4fortestLQ04.v2603.ky11.aarch64 aarch64
+    
+    2. 现在有个问题，如果我想申请ssh 远程链接到这个机子，但是防火墙不允许使用 22端口，思考解决方案:
+        1.  是不是可以通过在 服务器上进行一个端口映射，通过其他端口登陆比如 33196, 然后通过这个端口映射到 22 端口，再进行登陆
+            a. 如果是这样，远程服务器需要如何配置， 我现在有root 权限已经可以进行所有操作。
+            b. 本地shell 该如何登陆， 需要配置什么？
+
+        2. 还有一个问题， 公司内部的云桌面服务器， 无法直接通过 git 命令下载或者更新代码，说是 443 端口被封了， 但是可以通过网页进行下载， 如何解决？
+
+        3. 现在可以设置代理可以通过 https 进行下载了， 现在有一个小问题， 如何在 windows 上设置 仓库的统一的 用户名和密码， 这样就不用每次都输入了。
