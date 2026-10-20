@@ -1,0 +1,6 @@
+# Shell 脚本必须保持 LF 换行，否则 bash 解析报错（syntax error: unexpected "("）
+*.sh text eol=lf
+
+# Markdown 等文本文件使用平台默认换行
+*.md text
+*.txt text

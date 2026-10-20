@@ -163,6 +163,9 @@ bash task/review/review_prepare.sh daily 2026-10-10   # 指定日期
 **Q4：知识库目录可以裁剪吗？**
 可以。若新项目已有自己的知识库，只需保证复盘成果有地方沉淀（改脚本或改 agent 的沉淀目标即可），`study/knowledge_base_system` 骨架可按需精简。
 
+**Q5：Windows 下脚本跑不起来（`unexpected "("`）？**
+脚本用 bash 数组（`FILES=()`），且须为 **LF 换行**。① 用完整 bash 运行（如 Git Bash `C:\Program Files\Git\bin\bash.exe`），勿用 w64devkit 等精简 bash（不支持数组）；② 若文件是 CRLF 换行，先转 LF（`sed -i 's/\r$//' task/review/review_prepare.sh`），否则 bash 报 `syntax error: unexpected "("`；③ 可先 `bash -n` 做语法检查。
+
 ---
 
 ## 附：本功能包在 otc_src 仓库的原始出处
